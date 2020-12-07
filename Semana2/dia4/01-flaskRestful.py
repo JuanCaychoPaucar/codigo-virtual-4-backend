@@ -1,4 +1,5 @@
 # pip install flask-restful
+# reqparse => para indicar las caracterisiticas que deben de cumplirse para poder continuar con la logica de la api
 
 from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
@@ -24,7 +25,7 @@ items = [
     }
 ]
 
-# tener un CRUD y que ademas de acuerdo a un buscador, que me indique todos los productos que tengan esa caracteristica
+# tener un CRUD y que ademas, de acuerdo a un buscador, que me indique todos los productos que tengan esa caracteristica
 # 127.0.0.1/buscar {"palabra": "DESENGRASANTE"}
 
 
@@ -32,7 +33,7 @@ items = [
 def inicio():
     return 'La api funciona'
 
-
+#palabra, es lo que le pasamos por el POST
 @app.route('/buscar', methods=['POST'])
 def buscar():
     data = request.get_json()
@@ -51,6 +52,7 @@ def buscar():
     }
 
 
+# Clase Item que hereda de la clase Resource
 class Item(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument(
@@ -75,6 +77,7 @@ class Item(Resource):
         help='Falta las caracteristicas del producto'
     )
 
+    # METODOS
     def get(self, id):
         if len(items) > id:
             return {
@@ -90,6 +93,7 @@ class Item(Resource):
             }
 
     def post(self):
+        # realiza la validacion que configuramos previamente. Si todo esta correcto, lo asigna a la variable data
         data = self.parser.parse_args()
         items.append(data)
         return {
@@ -131,10 +135,11 @@ class Item(Resource):
 
 
 # Con el uso de flask_restfull ya no se necesitan decoradores.
-# Solamente un parametro para agregar un recurso a la api
-
+# Solamente se pasas un parametro para agregar un recurso a la api.
+# Le pasamos la clase, en este caso Item
 
 api.add_resource(Item, '/item', '/item/<int:id>')
 
+# ejecutamos el programa
 if __name__ == '__main__':
     app.run(debug=True, port=5002)

@@ -23,7 +23,9 @@ def ingresar_supermercado():
         }
     elif request.method == 'POST':
         # metodo get_json() convierte lo que me llega por el body, a un diccionario en Python
+        # request.get_json()['nombreSuper'], para visualizar el contenido del diccionario
         print(request.get_json())
+        # print(request)
         informacion = request.get_json()
         supermercados.append(informacion)
 
@@ -38,10 +40,11 @@ def ingresar_supermercado():
     return "Se registró el supermercado"
 
 
+# /supermercado/<int:id_super>/<string:nombre>/... varios parametros podremos enviar
 @app.route('/supermercado/<int:id_super>', methods=['GET', 'PUT', 'DELETE'])
 def supermercadoPorId(id_super):
+    # como verifico que el id que me mande exista en mi lista. En este ejemplo, el id sera la posicion.
     if len(supermercados) > id_super:
-        # como verifico que el id que me mande exista en mi lista
         if request.method == 'GET':
             return {
                 'ok': True,
