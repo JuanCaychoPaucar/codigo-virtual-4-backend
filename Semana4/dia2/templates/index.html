@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block titulo_pagina %}Inicio{% endblock %}
+{% block informacion %}
+<p>{{usuario.usu_nom}}</p>
+
+<div class="card">
+    <div class="card-body bg-secondary">
+        <p>{{usuario.usu_nom}} {{usuario.usu_ape}}</p>
+        <div class="container-fluid">
+            <div class="row">
+                {% for texto in arreglo %}
+                    <div class="rounded-pill bg-light p-2 col-3">{{texto}}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+{% endblock %}

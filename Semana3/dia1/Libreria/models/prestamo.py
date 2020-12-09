@@ -4,7 +4,8 @@ class PrestamoModel(bd.Model):
     __tablename__ = "t_prestamo"
     id_prestamo = bd.Column('prestamo_id', bd.Integer, primary_key=True, autoincrement=True)
     fechin_prestamo = bd.Column('prestamo_fechin', bd.Date(), nullable=False)
-    fechfin_prestamo = bd.Column('prestamo_fechfin', bd.Date(), nullable=True)
+    fechfin_prestamo = bd.Column('prestamo_fechfin', bd.Date(), nullable=False)
+    fechentrega_prestamo = bd.Column('prestamo_fechentrega', bd.Date, nullable=True)
     estado = bd.Column(bd.Boolean, default=True, nullable=False)
 
     #RELACIONES
@@ -27,6 +28,7 @@ class PrestamoModel(bd.Model):
             'id': self.id_prestamo,
             'fecha_inicio': str(self.fechin_prestamo),
             'fecha_fin': str(self.fechfin_prestamo),
+            'fecha_entrega': str(self.fechentrega_prestamo),
             'cliente': self.clientePrestamo.devolverJson(),
             'libro': self.libroPrestamo.devolverJson()
         }
@@ -36,6 +38,7 @@ class PrestamoModel(bd.Model):
             'id': self.id_prestamo,
             'fecha_inicio': str(self.fechin_prestamo),
             'fecha_fin': str(self.fechfin_prestamo),
+            'fecha_entrega': str(self.fechentrega_prestamo),
             'libro': self.libroPrestamo.devolverJson()
         }
 
@@ -44,12 +47,14 @@ class PrestamoModel(bd.Model):
             'id': self.id_prestamo,
             'fecha_inicio': str(self.fechin_prestamo),
             'fecha_fin': str(self.fechfin_prestamo),
+            'fecha_entrega': str(self.fechentrega_prestamo),
             'cliente': self.clientePrestamo.devolverJson()
         }
 
     def update(self, **kwargs):
         fecha_inicio = kwargs.get('fecha_inicio') if kwargs.get('fecha_inicio') else self.fechin_prestamo # usando operador ternario
         fecha_fin = kwargs.get('fecha_fin') if kwargs.get('fecha_fin') else self.fechfin_prestamo
+        fecha_entrega = kwargs.get('fecha_entrega') if kwargs.get('fecha_entrega') else self.fechentrega_prestamo
         cliente = kwargs.get('cliente') if kwargs.get('cliente') else self.cliente
         libro = kwargs.get('libro') if kwargs.get('libro') else self.libro
         estado = kwargs.get('estado') if kwargs.get('estado') else self.estado
@@ -57,6 +62,7 @@ class PrestamoModel(bd.Model):
 
         self.fechin_prestamo = fecha_inicio
         self.fechfin_prestamo = fecha_fin
+        self.fechentrega_prestamo = fecha_entrega
         self.cliente = cliente
         self.libro = libro
         self.estado = estado

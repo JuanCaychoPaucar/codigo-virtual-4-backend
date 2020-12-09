@@ -36,6 +36,13 @@ class PrestamosController(Resource):
             help='Falta el campo fecha fin'
         )
         parseador.add_argument(
+            'fecha_entrega',
+            type=str,
+            required=False,
+            location='json',
+            help='Falta el campo fecha entrega'
+        )
+        parseador.add_argument(
             'cliente',
             type=int,
             required=True,
@@ -71,9 +78,9 @@ class PrestamosController(Resource):
             if res_busqueda['content']['estado'] == True:
                 # verificar que el cliente no tenga libros pendientes por devolver
                 pendiente = ""
-                for fechafin in res_busqueda['content']['prestamos']:
-                    if fechafin['fecha_fin'] == "None":
-                        pendiente = fechafin['libro']
+                for fechaentrega in res_busqueda['content']['prestamos']:
+                    if fechaentrega['fecha_entrega'] == "None":
+                        pendiente = fechaentrega['libro']
                 # sino tuviera libros pendientes por devolver
                 if pendiente == "":
                     # verificar estado del libro
@@ -89,7 +96,7 @@ class PrestamosController(Resource):
                         cantidadPorDevolver = 0
 
                         for lib in arregloPrestamos:
-                            if lib['fecha_fin'] == 'None':
+                            if lib['fecha_entrega'] == 'None':
                                 cantidadPorDevolver += 1
 
                         if cantidadPorDevolver < cantidadLibros:
@@ -170,6 +177,13 @@ class PrestamoController(Resource):
                 help='Falta el campo fecha fin'
             )
             parseador.add_argument(
+                'fecha_entrega',
+                type=str,
+                required=False,
+                location='json',
+                help='Falta el campo fecha entrega'
+            )
+            parseador.add_argument(
                 'cliente',
                 type=int,
                 required=False,
@@ -195,6 +209,7 @@ class PrestamoController(Resource):
             resultado.update(
                 fecha_inicio=body['fecha_inicio'],
                 fecha_fin=body['fecha_fin'],
+                fecha_entrega=body['fecha_entrega'],
                 cliente=body['cliente'],
                 libro=body['libro'],
                 estado=body['estado']
@@ -204,3 +219,10 @@ class PrestamoController(Resource):
                 'content': resultado.devolverJson(),
                 'message': 'Prestamo actualizado con exito'
             }, 201
+
+        else:
+            return{
+                'ok': False,
+                'message': 'Prestamo no existe',
+                'content': None
+            }

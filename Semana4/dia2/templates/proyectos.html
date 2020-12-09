@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block titulo_pagina %}Proyectos{% endblock %}
+{% block informacion %}
+<ul>
+    {% for proyecto in proyectos %}
+    <li>{{proyecto}}</li>
+    {% endfor %}
+</ul>
+
+<p>Yo soy la pagina de proyectos</p>
+{% endblock %}

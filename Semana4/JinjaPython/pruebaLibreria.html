@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        fetch("https://libreria-virtual-juan.herokuapp.com/libro", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(rpta => {
+            console.log(rpta.status);
+            return rpta.json();
+        }).then(data => {
+            console.log(data);
+        })
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
