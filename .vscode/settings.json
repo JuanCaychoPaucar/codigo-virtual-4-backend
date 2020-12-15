@@ -1,3 +1,6 @@
 {
-    "liveServer.settings.port": 5501
+    "python.linting.pylintArgs": [
+        "--load-plugins=pylint_django, pylint_celery"  // para evitar que me de el problema de objeto de los modelos de django
+    ],
+    "python.pythonPath": "c:\\Users\\Godicillo\\virtualback4\\Scripts\\python.exe"
 }

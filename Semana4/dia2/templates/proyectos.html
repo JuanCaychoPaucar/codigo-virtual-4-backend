@@ -1,11 +1,52 @@
 {% extends "base.html" %}
 {% block titulo_pagina %}Proyectos{% endblock %}
 {% block informacion %}
-<ul>
+<!-- <ul>
     {% for proyecto in proyectos %}
     <li>{{proyecto}}</li>
     {% endfor %}
-</ul>
+</ul> -->
 
-<p>Yo soy la pagina de proyectos</p>
+<style>
+    @media(max-width:4000px) {
+        .imagen {
+            height: 272px;
+        }
+    }
+
+    @media(max-width:1200px) {
+        .imagen {
+            max-height: 272px;
+        }
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-10">
+        <div class="row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 row-cols-1 g-4">
+            {% for usu in usuario.proyectos %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src={{usu.proy_img}} class="card-img-top imagen" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{usu.proy_desc}}</h5>
+                        <p class="card-text">
+                            <span class="fw-bold">Duracion</span> : {{usu.proy_duracion}} mes(es)
+                        </p>
+                        <p class="card-text">
+                            <span class="fw-bold">Usuario</span> : {{usuario.usu_nom}} {{usuario.usu_ape}}
+                        </p>
+                        <a class="text-dark me-3" href={{usuario.redes_sociales[1].rs_link}} target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a class="text-dark me-3" href={{usuario.redes_sociales[0].rs_link}} target="_blank"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+
 {% endblock %}

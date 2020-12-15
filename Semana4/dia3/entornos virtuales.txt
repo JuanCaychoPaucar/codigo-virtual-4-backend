@@ -1,0 +1,175 @@
+1) abrir el CMD         aparece el nombre de usuario de windows C:\Users\nombre_usuario
+2) py -m venv virtualback4          -m => es un modulo, venv=> es el nombre de la liberia, virtualback4=>nombre de mi entorno virtual
+3) en el explorador de windows, vemos que se ha creado una carpeta llamada virtualback4         C:\Users\nombre_usuario\virtualback4
+4) Ingresamos a la carpeta a traves de la consola: cd virtualback4
+5) dir      para ver los archivos que contiene la carpeta
+6) Para inicializar el entonro virtual, ejecutamos el comando:      Scripts\activate
+    C:\Users\nombre_usuario\virtualback4>Scripts\activate
+7) Nos muestra en consola:
+    (vitualback4)C:\Users\nombre_usuario\virtualback4>
+   Lo que nos indica que ya estamos en un entorno virtual
+8) Si ejecutamos el comando:        pip list
+   Solo nos muestra 2 liberias: pip y setuptools
+9) Para desactivar el entorno virtual, comando:     deactivate
+10) Para eliminar un entorno virtual, lo borramos como cualquier carpeta
+
+PARA TRABAJAR CON EL ENTORNO VIRTUAL EN VSCODE
+1) dentro de vscode, en la parte inferior izquierda, damos clic en Python 3.9
+2) Seleccionamos Enter interpreter path
+3) Seleccionamos find
+4) Vamos a la ruta: C:\Users\Godicillo\virtualback4\Scripts y seleccionamos el archivo python.exe
+5) Clic en Select Interpreter
+
+
+
+NOTA:
+para actualizar pip => https://datatofish.com/upgrade-pip/
+C:\Users\nombre_usuario\AppData\Local\Programs\Python\Python_versionactual>python -m pip install --upgrade pip
+
+
+ERROR AL USAR POWERSHELL
+1) Ejecutar POWERSHELL como administrador
+2) Ejecutar comando: Get-ExecutionPolicy
+3) Si nos muestra: Restricted
+4) Ejecutamos: Set-ExecutionPolicy Unrestricted
+5) Seleccionamos: S
+6) Nuevamente paso 2
+7) Debe mostar: Unrestricted
+
+DE PREFERENCIA UTILIZAR LA CONSOLA DE POWERSHELL
+
+
+PARA CREAR PROYECTO
+
+1) Nos ubicamos en la carpeta del proyecto y abrimos la consola
+2) Ejecutamos el comando: django-admin startproject Minimarket     donde Minimarket es el nombre del proyecto
+3) Pero vemos que se crea una carpeta Minimarket y otra subcarpeta Minimarket.
+4) Sino queremos que suceda eso, ejecutamos entonces el comando: django-admin startproject Minimarket .
+
+
+PARA EJECUTAR EL PROYECTO
+1) Nos ubicamos en la carpeta del proyecto, en este caso: D:\TECSUP\VIRTUAL BACK 4\Semana4\dia3\minimarket
+**** Ejecutamos el comando: py manage.py (si queremos ver los comandos disponibles) ***
+2) Ejecutamos el comando: py manage.py runserver
+3) Nos muestra el mensaje: You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+4) Para salir del servidor: CTRL + C
+
+CAMBIAR A ESPAÑOL
+En el archivo settings.py
+Ubicamos y modificamos LANGUAGE_CODE = 'es'
+
+DESCARGAMOS SQLITE BROWSER
+https://sqlitebrowser.org/dl/
+DB Browser for SQLite - Standard installer for 64-bit Windows
+
+VER MIGRACIONES
+Para ver que migraciones se han efectuado y cuales no en la base de datos
+Comando: py manage.py showmigrations
+
+EJECUTAR MIGRACIONES
+Comando: py manage.py migrate
+
+CREAR APLICACION DENTRO DE DJANGO
+comando: py manage.py startapp administracion
+donde administracion es el nombre de mi app
+vemos que se ha creado una carpeta administracion, que esta al mismo nivel que Minimarket
+Nota:
+- Un proyecto puede tener una o mas aplicaciones.
+- Si se desea utilizar dicha aplicacion en otro proyecto, simplemente copiamos la carpeta y la pegamos en el otro proyecto
+
+DECLARAR APLICACION
+1) Cada vez que creemos una nueva aplicaion, debemos de declararla en el archivo settings.py, dentro de:
+    INSTALLED_APPS = []
+2) Siempre que haga un cambio en la BD, debo de realizar las migraciones. En este caso hemos declaro la aplicacion administracion
+    comando: py manage.py showmigrations
+        vemos que administracion aun no tiene migraciones
+    comando: py manage.py makemigrations
+        hace un barrido de todas mis aplicaciones. Si ve que alguna migracion aun no esta registrada, la va a agregar
+3) Hacemos efectiva las migraciones
+    comando: py manage.py migrate
+
+
+RESUMEN DE COMANDOS:
+py manage.py runserver => levantar el servidor
+py manage.py showmigrations => mostrar todas las migraciones con respecto al server
+py manage.py makemigrations *opcional_nombre_aplicacion => valida las migraciones, y si ve alguna nueva la creara en la aplicacion
+py manage.py migrate => hace que todas las migraciones no aplicadas, sean aplicadas en la BD
+Nota:
+- Adicionalmente a esos comandos se le puede adicionar el nombre de la aplicacion, para que solo sean efectuadas en dicha aplicacion.
+  Eso sirve para no tocar otras apps que estan aun en desarrollo
+py manage.py createsuperuser => crea un superusuario para el panel administrativo
+
+CREAR SUPERUSUARIO
+1) Si aun no lo hemos hecho, realizar lo siguiente:
+    comando: py manage.py createsuperuser
+2) Ingresar los datos solicitados. En este caso:
+    usuario: jcaycho
+    contraseña: 123456
+3) Estos datos se almacenan en la tabla: auth_user
+4) Ejecutamos el servidor:
+    comando: py manage.py runserver
+5) Ingresamos a la ruta:
+    http://127.0.0.1:8000/admin/
+6) Ingresamos el usuario y contraseña creados
+
+REGISTRAR LOS MODELOS
+En el archivo admin.py de mi aplicacion:
+    from .models import AlmacenModel
+    admin.site.register(AlmacenModel)
+Vemos que ya aparece en la url http://127.0.0.1:8000/admin/
+
+
+CAMBIAR CONEXION BASE DE DATOS
+1) Ingresar al archivo setting.py, buscamos:
+    DATABASES = {}
+
+Por defecto estaba:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
+    Vamos a utilizar MySQL:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'minimarket4',
+            'USER': 'root',
+            'PASSWORD': '123456',
+            'HOST': '127.0.0.1', #localhost
+            'PORT': '3306'
+        }
+    }
+
+Luego instalamos: (debemos estar en la carpeta principal del proyecto)
+D:\TECSUP\VIRTUAL BACK 4\Semana4\dia3\Minimarket> pip install mysqlclient
+
+
+INSTALAR DJANGO REST FRAMEWORK
+https://www.django-rest-framework.org/tutorial/quickstart/
+1) pip install djangorestframework
+2) en archivo setting.py:
+    INSTALLED_APPS = [
+        'rest_framework',  lo declaramos antes de nuestra aplicacion
+        'administracion',
+    ]
+3) pip install pylint-django
+
+
+
+REALIZAR UNA COPIA DE LAS LIBERIAS UTILIZADAS
+1) Dentro de mi entorno virtual, ejecutar el comando:
+    pip freeze > requirements.txt
+2) Se creara una archivo con dicho nombre
+
+INSTALAR LAS LIBRERIAS DE MI ENTORNO VIRTUAL EN OTRA PC
+1) Nos ubicamos en la ruta donde se encuentre el archivo requirements.txt
+2) Ejecutar el siguiente comando:
+         pip install -r requirements.txt
+3) Se realizar la instalacion de forma automatica
+
+
+INSTALAR UNA VERSION ESPECIFICA
+pip instal django==3.1.4

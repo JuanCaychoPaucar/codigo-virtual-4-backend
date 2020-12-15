@@ -37,13 +37,25 @@ def pagina_principal():
 
 @app.route('/proyectos')
 def proyectos():
-    mis_proyectos = ['Proyecto1', 'Proyecto2', 'Proyecto3', 'Proyecto4']
-    return render_template('proyectos.html', proyectos=mis_proyectos)
+    # mis_proyectos = ['Proyecto1', 'Proyecto2', 'Proyecto3', 'Proyecto4']
+    usuario = UsuarioModel.query.first()
+    return render_template('proyectos.html', usuario=usuario)
 
 
-@app.route('/contact')
+# @app.route('/contact')
+# def contactame():
+#     return render_template('contact-me.html')
+
+
+@app.route('/contact', methods=['GET', 'POST'])
 def contactame():
-    return render_template('contact-me.html')
+    if request.method == 'GET':
+        print("HOLA, SOY GET")
+        return render_template('contact-me.html')
+    if request.method == 'POST':
+      result = request.form
+      print("HOLA")
+
 
 
 @app.route('/subirArchivo', methods=['POST'])
@@ -69,6 +81,7 @@ def subir_archivo():
     # que faltaria para agregar esa direccion de la imagen a mi proyecto
     return 'se guardó'
 
+
 @app.route('/devolverImagen/<string:nombre>')
 def devolver_imagen(nombre):
     try:
@@ -78,4 +91,4 @@ def devolver_imagen(nombre):
 
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True)

@@ -1,5 +1,27 @@
 {% extends "base.html" %}
 {% block titulo_pagina %}Contacto{% endblock %}
 {% block informacion %}
-    <p>Yo soy la pagina de contacto</p>
+<p>Yo soy la pagina de contacto</p>
+<div class="row justify-content-center">
+    <div class="col-5">
+        <form>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre y apellido</label>
+                <input type="text" class="form-control" id="nombre" placeholder="Ingrese nombre y apellido">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Ingrese su email">
+            </div>
+            <div class="mb-3">
+                <label for="mensaje" class="form-label">Mensaje</label>
+                <textarea class="form-control" id="mensaje" style="height: 100px" placeholder="Ingrese su mensaje"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+    </div>
+
+</div>
+
+
 {% endblock %}
