@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ProductoModel, AlmacenModel, ProductoAlmacenModel
+from .models import ProductoModel, AlmacenModel, ProductoAlmacenModel, CabeceraVentaModel
 
 # es similar al reqparse de flask
 # https://www.django-rest-framework.org/api-guide/serializers/
@@ -22,7 +22,7 @@ class ProductoSerializer(serializers.ModelSerializer):
         self.instance.productoPrecio = self.validated_data.get("productoPrecio", self.instance.productoPrecio)        
         self.instance.productoMinimo = self.validated_data.get("productoMinimo", self.instance.productoMinimo)
         self.instance.save()
-
+        
         return self.instance
         # self.instance.productoNombre
 
@@ -51,6 +51,17 @@ class ProductoAlmacenSerializer(serializers.ModelSerializer):
         model = ProductoAlmacenModel
         fields = "__all__"
         # exclude = ['productoId', 'almacenId']
+        # https://www.django-rest-framework.org/api-guide/serializers/#additional-keyword-arguments
+        # la configuracion adicional que yo le pueda colocar a los campos de mi modelo, se la pongo en el atributo llamado  extra_kwargs.
+        # le puedo modificar parametros del mismo modelo, como su longitud maxima (max_lenght) o longitud minima (min_lenght)
+        extra_kwargs = {
+            "productoId": {
+                "write_only": True
+            },
+            "almacenId": {
+                "write_only": True
+            }
+        }
 
 
 # este serializador lo voy a usar cuando quiera devolver, de mis productos, sus almacenes
@@ -80,4 +91,27 @@ class AlmacenSerializerMany(serializers.ModelSerializer):
     class Meta:
         model = AlmacenModel
         fields = "__all__"
-        
+
+
+
+class CabeceraVentasSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CabeceraVentaModel
+        fields = "__all__"
+
+
+
+class ItemDiccionario(serializers.Serializer):
+    # un Serializer, si se hereda es automaticamente un diccionario
+    id = serializers.IntegerField()
+    cantidad = serializers.IntegerField()
+
+
+# no solamente se usa serializadores para modelos, tambien se pueden usar para validar campos independientes de algun modelo
+# solamente cuando nosotros queremos usar una lista sin importar que contenga, usamos el serializer.ListField, 
+# si muy por el contrario queremos usar otro serializador(herencia) tenemos que simplemente llamarlo y con poner como parametro "many=True" 
+# ya se convertira en una Lista y recordar que todo serializador es al final un diccionario
+class VentaSerializer(serializers.Serializer):
+    articulos = ItemDiccionario(many=True)
+    fecha = serializers.DateTimeField()
+    nombre = serializers.CharField(max_length=45)

@@ -173,3 +173,20 @@ INSTALAR LAS LIBRERIAS DE MI ENTORNO VIRTUAL EN OTRA PC
 
 INSTALAR UNA VERSION ESPECIFICA
 pip instal django==3.1.4
+
+
+
+CONFIGURAR HORA SERVIDOR
+1) Archivo settings.py de Minimarket
+    TIME_ZONE = 'UTC' original
+    USE_TZ = True  original
+
+    TIME_ZONE = 'America/Lima'
+    USE_TZ = False
+
+2) Para verificar el cambio realizado, lo haremos a traves del shell
+    py manage.py shell
+    from django.utils import timezone
+    timezone.now()
+    str(timezone.now())
+    exit()

@@ -34,6 +34,7 @@ class ProductoModel(models.Model):
 class AlmacenModel(models.Model):
     almacenId = models.AutoField(auto_created=True, primary_key=True, unique=True, null=False, db_column='alma_id')
     almacenDescripcion = models.CharField(max_length=75, db_column='alma_desc', verbose_name='Descripcion del almacén', help_text='Aca va la descripcion del almacen')
+    almacenEstado = models.BooleanField(db_column='alma_estado', verbose_name='Estado del almacen', null=False, default=True)
     # verbose_name => es el texto que aparecera cuando nos solicite ingresar un valor al campo. Esto se ve en el panel administrativo
 
     class Meta:
@@ -64,6 +65,12 @@ class ProductoAlmacenModel(models.Model):
     productoId = models.ForeignKey(ProductoModel, on_delete=models.PROTECT, db_column='prod_id', related_name='productosAlmacenes')
     almacenId = models.ForeignKey(AlmacenModel, on_delete= models.PROTECT, db_column='alma_id', related_name='almacenesProductos')
 
+    # CAMPOS DE AUDITORIA
+    # auto_now_add=True, sirve para que cuando se cree un nuevo registro, se almacene automaticamente la fecha y hora del servidor en esa columna
+    # auto_now = True, srive para cuando haya algun cambio en mi registro, se modifique con la fecha actual de mi servidor
+    createdAt = models.DateTimeField(db_column='fecCreacion', auto_now_add=True)
+    updateAt = models.DateTimeField(db_column='fecActualizacion', auto_now=True)
+
     class Meta:
         db_table = 't_prod_alma'
         verbose_name_plural = "Productos por almacen"
@@ -90,6 +97,7 @@ class DetalleVentaModel(models.Model):
     detalleVentaCantidad = models.IntegerField(db_column='detven_cant')
     detalleVentaSubTotal = models.DecimalField(max_digits=5, decimal_places=2, db_column='detven_subtotal')
     cabeceraVentaId = models.ForeignKey(CabeceraVentaModel, on_delete=models.PROTECT, db_column='cabven_id', related_name='cabeceraVentas')
-    productoAlmacenId = models.ForeignKey(ProductoAlmacenModel, on_delete=models.PROTECT, db_column='prod_alma_id', related_name='productoAlmacenVentas')
+    productoId = models.ForeignKey(ProductoModel, on_delete=models.PROTECT, db_column='prod_id', related_name='productoVentas')
+    
     class Meta:
         db_table='t_detventa'

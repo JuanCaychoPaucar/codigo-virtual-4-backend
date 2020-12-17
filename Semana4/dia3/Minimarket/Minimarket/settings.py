@@ -110,14 +110,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 # cambiamos el idioma a ESPAÑOL. Por defecto esta en: LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'es'
-
-TIME_ZONE = 'UTC'
+# https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+TIME_ZONE = 'America/Lima'
 
 USE_I18N = True
 
 USE_L10N = True
-
-USE_TZ = True
+# https://docs.djangoproject.com/en/3.1/topics/i18n/timezones/
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
