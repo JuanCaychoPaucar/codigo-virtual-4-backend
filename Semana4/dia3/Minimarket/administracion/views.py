@@ -8,10 +8,54 @@ from .serializers import (  ProductoSerializer,
                             ProductoAlmacenSerializer,
                             AlmacenSerializerMany,
                             CabeceraVentasSerializer,
-                            VentaSerializer)
+                            VentaSerializer,
+                            VentaCompletaSerializer)
 
 # para que nos muestre los codigos de status, como ayuda
 from rest_framework import status
+from rest_framework.decorators import api_view
+
+
+# Si solamente yo quiero usar una funcionalidad basica y no usar mucha logica ni muchos metodos (GET, POST, ...),
+# puedo entonces utilizar un decorador llamado api_view.
+# Indico los metodos de acceso, pero si no pongo nada, el unico metodo de acceso va a ser por defecto el GET
+
+@api_view()
+def retornar_usuario_por_nombre(request, nombre):
+    # para mandar espacios y caracteres especiales como  ; , / ? .... en el frontEnd debemos antes de pasar el valor,
+    # usar el metodo "encodeURI(palabra) para JS|TS"
+
+    # Hacer una busqueda de mi tabla CabeceraVenta para que, pasandole el nombre del cliente, me devuelva todas sus cabeceras e imprimirlas.
+    # Usar el VentaCompletaSerializer, y usar solo coincidencia exacta
+    # Field Lookup
+    # Son configuraciones adicionales a mis campos de mis modelos que puedo usar para hacer un filtro mas especifico, como clausulas like, limites de fechas, entre otros
+    # https://docs.djangoproject.com/en/3.1/ref/models/querysets/#field-lookups
+
+    compras = CabeceraVentaModel.objects.filter(cabeceraVentaNombre__contains=nombre).all()
+    comprasSerializada = VentaCompletaSerializer(instance=compras, many=True)
+
+    return Response({
+        "ok": True,
+        "content": comprasSerializada.data,
+        "message": None
+    })
+
+
+# hacer un controlador para que, recibiendo la fecha de inicio y fecha fin, se haga un filtro de todas las ventas realizadas en ese fecha
+# https://docs.djangoproject.com/en/3.1/ref/models/querysets/#range
+@api_view()
+def filtrar_compras_fecha(request, fechaInicio, fechaFin):
+    comprasPorFechas = CabeceraVentaModel.objects.filter(cabeceraVentaFecha__range=(fechaInicio, fechaFin)).all()
+    comprasPorFechaSerializada = VentaCompletaSerializer(instance=comprasPorFechas, many=True)
+
+    return Response({
+        "ok": True,
+        "content": comprasPorFechaSerializada.data,
+        "message": None
+    })
+
+
+
 
 # Create your views here.
 # las APIViews sirve para darnos una serie de metodos predefinidos que pueden ser modificados. 
@@ -247,9 +291,10 @@ class VentaView(CreateAPIView):
         respuesta = self.get_serializer(data=request.data)
         respuesta.is_valid(raise_exception=True)
 
+        # I Aca yo valido si mi producto existe y si su estado esta como habilitado
         for articulo in respuesta.data['articulos']:
             # print(articulo['id'])
-            # ver si existen en la BD
+            # VER SI EXISTEN LOS ARTICULOS SEGUN SU ID
             producto = ProductoModel.objects.filter(productoId=articulo['id']).first()
 
             if (producto is None or producto.productoEstado == False):
@@ -296,21 +341,54 @@ class VentaView(CreateAPIView):
         for articulo in respuesta.data['articulos']:
             producto = ProductoModel.objects.filter(productoId=articulo['id']).first()
             precioTotal = producto.productoPrecio * articulo['cantidad']
+            precioFinal += precioTotal
 
             # para crear con una FK es necesario pasar todo el objeto (instancia) de mi modelo y no solamente su numero de primary key
             detalle = DetalleVentaModel(productoId=producto, cabeceraVentaId=cabeceraVenta, detalleVentaCantidad=articulo['cantidad'], detalleVentaSubTotal=precioTotal)
             detalle.save()
             detalles.append(detalle)
-        print(detalles)
+
+            # VI ACTUALIZAR SUS CANTIDADES DE LA TABLA PRODUCTOALMACEN
+            # print(producto.productosAlmacenes.all())
+            # primero, agarro la cantidad de cuantos articulos necesito, para luego restar cada vez que ingrese a un productoAlmacen
+            cantidadesNecesitadas = articulo['cantidad']
+            for productoAlmacen in producto.productosAlmacenes.all():
+                # Itero todos mis productosAlmacenes segun su relacion inversa del producto y luego capturo su cantidad en ese almacen determinado
+                cantidadAlmacen = productoAlmacen.productoAlmacenCantidad
+
+                # En cada iteracion voy restando las cantidaddes necesitadas hasta llegar a 0. Si llego, ya no necesito restar mas de mis lamacenes
+                if cantidadesNecesitadas > 0:
+                    # Si la cantidad del alamacen es mayor que la solicitada (es decir satisface de mas lo que el usuario necesita), 
+                    # le resto esa cantidad y coloco las cantidadesNecesitadas a 0,
+                    # puesto que ya tengo todas las cantidades necesitadas y le resto a esa cantidad del almacen toda la cantidadNecesitada y lo guardo
+                    if cantidadAlmacen >= cantidadesNecesitadas:
+                        # Se proveyo la cantidad solicitada
+                        productoAlmacen.productoAlmacenCantidad = productoAlmacen.productoAlmacenCantidad - cantidadesNecesitadas
+                        productoAlmacen.save()
+                        cantidadesNecesitadas = 0
+                    
+                    # Sino, consumire todas las cantidades de ese almacen pero aun me falta stock para satisfacer por lo que recorrere al siguiente Almacen en busca de mas productos
+                    else:
+                        # Falta mas stock
+                        cantidadesNecesitadas = cantidadesNecesitadas - cantidadAlmacen
+                        productoAlmacen.productoAlmacenCantidad = 0
+                        productoAlmacen.save()
+                        print("Falta mas stock")
+
+        # print(detalles)
 
         # V MODIFICAR EL PRECIO FINAL DE MI CABECERA
         cabeceraVenta.cabeceraVentaTotal = precioFinal
         cabeceraVenta.save()
 
-        # VI ACTUALIZAR SUS CANTIDADES DE LA TABLA PRODUCTOALMACEN
+        # llamo a mi serializador para devolver la data correctamente formateada
+        ventaCompleta = VentaCompletaSerializer(instance=cabeceraVenta)
+        
             
         return Response({
             "ok": True,
-            "content": respuesta.data
+            "content": ventaCompleta.data
         }, status=status.HTTP_201_CREATED)
+
+
 
