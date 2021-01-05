@@ -4,6 +4,8 @@ const express = require('express');
 // npm install body-parser
 const bodyParser = require('body-parser');
 
+const tareasRouter = require('../routes/TareaRoutes');
+
 class Server {
     constructor() {
         // app es una instancia de mi clase express
@@ -25,7 +27,10 @@ class Server {
         this.app.get('/', (req, res) => {
             // toda la logica de esa ruta
             res.status(200).send('La API funciona con éxito')
-        })
+        });
+
+        this.app.use('/api', tareasRouter);
+
     }
 
     start() {

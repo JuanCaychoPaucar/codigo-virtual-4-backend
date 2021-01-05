@@ -15,3 +15,6 @@ npm install express
 --save-dev | --no-save => se va a gardar pero solo para desarrollo
 
 npm install express@3.18 si es quiseramos una version en especifico
+
+Nodemom, de manera global
+npm install -g nodemon
