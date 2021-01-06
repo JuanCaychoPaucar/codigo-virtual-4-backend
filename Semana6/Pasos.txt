@@ -1,4 +1,6 @@
 
+PROYECTO TAREAS
+
 Debemos tener instalado Node.js
 verificar: node --version
 
@@ -18,3 +20,42 @@ npm install express@3.18 si es quiseramos una version en especifico
 
 Nodemom, de manera global
 npm install -g nodemon
+
+
+
+PROYECTO FARMACIA
+
+1) dentro de la carpeta Farmacia
+2) npm init
+        nombre proyecto: farmacia-sequalize
+        version: presionamos ENTER
+        description: API usando base de datos y ORM sequelize
+        entry point: ENTER
+        test command: ENTER
+        git repository: ENTER
+        keywords: sequelize, express, orm
+        author: JuanCaychoPaucar
+        license: (ISC) MIT
+
+        luego presionamos ENTER para aceptar lo ingresado
+
+3) instalamos express, body-parser y sequelize. Debemos estar en la carpeta Farmacia
+    npm install express body-parser sequelize
+
+4) Dentro de Farmacia creamos una carpeta SRC y dentro de SRC el archivo index.js
+
+
+
+NOTA:
+En el archivo .gitignore de nuestro repositorio principal, debemos de colocar lo siguiente:
+__pycache__/
+node_modules/
+package-lock.json
+
+Para que nunca lo agregue a nuestro repositorio
+
+
+CREAR BASE DATOS POR LINEA COMANDOS:
+1) Abrir MySQL command line client
+2) ingresar password
+3) create database farmaciaSequelize

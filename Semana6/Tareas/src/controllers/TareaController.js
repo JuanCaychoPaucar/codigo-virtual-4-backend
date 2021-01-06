@@ -55,17 +55,17 @@ const editarTareaPorId = (req, res) => {
 }
 
 
-const eliminarTareaPorId = (req, res)=>{
-    let {id_tarea} = req.params;
-    if (tareas.length >= id_tarea){
+const eliminarTareaPorId = (req, res) => {
+    let { id_tarea } = req.params;
+    if (tareas.length >= id_tarea) {
         // https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/splice
-        tareas.splice(id_tarea-1 , 1);
+        tareas.splice(id_tarea - 1, 1);
         return res.json({
-            ok :true,
-            message:'Se elimino la tarea exitosamente',
+            ok: true,
+            message: 'Se elimino la tarea exitosamente',
             content: null
         });
-    }else{
+    } else {
         return res.status(404).json({
             ok: false,
             message: 'No existe la tarea',
@@ -74,10 +74,59 @@ const eliminarTareaPorId = (req, res)=>{
     }
 }
 
+// podemos pasar varios parametros, sin declararlos en nuestro enrutador
+const devolverTareaPorId = (req, res) => {
+    console.log(req.query);
+    // validar si en los parametros esta el parametro id, y si esta, buscarlo en el array.
+    // si no esta el id, indicar que falta ese parametro con un estado 500, y si no existe esa posicion, indicar que no existe con un estado 404
+
+    // http://localhost:5000/api/tarea/filter?id=1&parametro2=valor2&parametro3=valor3
+    // { id: '1', parametro2: 'valor2', parametro3: 'valor3' } lo que nos llega en el query
+    // lo recuperamos en req.query
+
+    // destructuramos id
+    let { id } = req.query;
+
+    if (id) {
+        // significa que si hay el parametro id
+
+        // validamos si ingresan valores menores o iguales a 0
+        if (id > tareas.length || id <= 0) {
+            return res.status(404).json({
+                ok: false,
+                content: null,
+                message: 'Posicion no encontrada'
+            })
+        } else {
+            return res.status(200).json({
+                ok: true,
+                content: tareas[id - 1],
+                message: null
+            })
+        }
+    }
+    else {
+        return res.status(500).json({
+            ok: false,
+            content: null,
+            message: 'Falta el parametro id'
+        })
+    }
+}
+
+/**
+ * PARAMS: /api/:id/:nombre/:edad
+ * si usamos params, estos se deben de definir en la ruta
+ * 
+ * QUERY: /api?id=valor1&nombre=valor2&edad=valor3
+ * si usamos query, no es necesario definirlo en la ruta, ya que es dinamico
+ */
+
 module.exports = {
     // crearTarea: crearTarea,
     crearTarea,
     listarTareas,
     editarTareaPorId,
     eliminarTareaPorId,
+    devolverTareaPorId,
 }
