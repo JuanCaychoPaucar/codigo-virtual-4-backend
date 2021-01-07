@@ -54,7 +54,8 @@ module.exports = class Server {
             // alter: true => veririfica que los modelos esten igual que las tablas.
             // Si hay algun cambio, solamente hara ese cambio, mas no reseteara todas las tablas y mucho menos habra perdida de informacion
             // sus valores por defecto en ambos casos son false.
-            conexion.sync({ force: true, alter: true }).then(() => {
+            // conexion.sync({ force: true, alter: true }) la primera vez
+            conexion.sync({ force: true, alter: false }).then(() => {
                 console.log('Base de datos sincronizada correctamente');
             });
         })

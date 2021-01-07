@@ -1,5 +1,6 @@
 // DataTypes => indicar que valor va a recibir cierta columna
 // http://sequelize.org/master/manual/model-basics.html#data-types
+// validaciones : https://sequelize.org/master/manual/validations-and-constraints.html#per-attribute-validations
 const { DataTypes } = require('sequelize');
 
 const producto_model = (conexion) => {
@@ -19,11 +20,19 @@ const producto_model = (conexion) => {
         productoNombre: {
             type: DataTypes.STRING(45), // si no coloco la longitud en STRING, va a ser de longitud 1, osea VARCHAR(1)
             field: 'prod_nomb',
-            unique: true
+            unique: true,
+            validate: {
+                len: [1,20],
+                isAlphanumeric: true
+            }
         },
         productoPrecio: {
             type: DataTypes.DECIMAL(5, 2),
-            field: 'prod_precio'
+            field: 'prod_precio',
+            validate: {
+                min: 1,
+                max: 1000
+            }
         },
         productoRegistroSanitario: {
             type: DataTypes.STRING(25),
