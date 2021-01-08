@@ -22,8 +22,7 @@ const producto_model = (conexion) => {
             field: 'prod_nomb',
             unique: true,
             validate: {
-                len: [1,20],
-                isAlphanumeric: true
+                len: [1,20]
             }
         },
         productoPrecio: {
@@ -36,7 +35,10 @@ const producto_model = (conexion) => {
         },
         productoRegistroSanitario: {
             type: DataTypes.STRING(25),
-            field: 'prod_regsan'
+            field: 'prod_regsan',
+            validate: {
+                isAlphanumeric: true
+            }
         }
     }, {
         tableName: 't_producto',  // nombre de la tabla
