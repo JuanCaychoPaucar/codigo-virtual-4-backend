@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { conexion } = require('./Sequelize');
 const producto_router = require('../routes/ProductoRouter');
+const lote_router = require('../routes/LoteRouter');
+const tipo_operacion_router = require('../routes/TipoOperacionRouter');
+const operacion_router = require('../routes/OperacionRouter');
 
 module.exports = class Server {
     constructor() {
@@ -44,8 +47,11 @@ module.exports = class Server {
                 message: 'Bienvenido a mi API'
             });
         });
-        
+
         this.app.use('', producto_router);
+        this.app.use('', lote_router);
+        this.app.use('', tipo_operacion_router);
+        this.app.use('', operacion_router);
     }
 
     start() {
