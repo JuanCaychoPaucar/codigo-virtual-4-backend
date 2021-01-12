@@ -15,6 +15,8 @@ const detalleOperacionModel = require('../models/DetalleOperacionModel');
 // 2da forma de conexion a BD
 const conexion = new Sequelize(
     // base_datos, usuario, contraseña
+    // "u2h2l7dqqcpeklap", "alsuyum2ge2p5vj2", "x4wkk4c6o4m9nml3", {
+    // host: "td5l74lo6615qq42.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
     "farmaciaSequelize", "root", "123456", {
     host: "localhost",
     port: 3306,
@@ -40,7 +42,7 @@ const DetalleOperacion = detalleOperacionModel(conexion);
 // Una vez definidos todos los modelos, se procede a crear las relaciones
 // Producto tiene muchos Lotes
 // si desemaos que una llave foranea no acepte campos vacios, le colocamos allowNull:false
-Producto.hasMany(Lote, { foreignKey: {name: 'prod_id', allowNull: false} });
+Producto.hasMany(Lote, { foreignKey: { name: 'prod_id', allowNull: false } });
 
 // para usar las relaciones inversas ahora hacemos lo contrario
 // Lote pertenece a Producto

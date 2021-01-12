@@ -20,15 +20,14 @@ const cabecera_operacion_model = (conexion) => {
             type: DataTypes.STRING(45),
             field: 'cab_ope_nomb',
             validate: {
-                len: [5,45],
-                isAlpha: true
+                len: [5,45]
             }
         }, 
         cabeceraOperaciondireccion: { // que solo sea alfanumerico
             type: DataTypes.STRING(45),
             field: 'cab_ope_direc',
             validate: {
-                isAlphanumeric: true
+                // isAlphanumeric: true
             }
         }, 
         cabeceraOperacionTotal: { // minimo 25 y maximo 1000
