@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { conexion } = require('./Sequelize');
+const categoria_router = require('../routes/CategoriaRoutes');
 
 class Server {
     constructor() {
@@ -29,12 +31,19 @@ class Server {
         this.app.get('/', (req, res) => {
             res.status(200).send('la API funciona correctamente 😎🍕');
         });
+        this.app.use('', categoria_router);
     }
 
 
     start() {
         this.app.listen(this.puerto, () => {
             console.log(`Servidor corriendo exitosamente en el puerto ${this.puerto}`);
+            // sync({ force: true })
+            conexion.sync().then(() => {
+                console.log('Base de datos sincronizada exitosamente');
+            }).catch((error) => {
+                console.log(error);
+            });
         });
     }
 }

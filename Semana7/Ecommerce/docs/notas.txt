@@ -1,0 +1,12 @@
+Instalar:
+npm install express sequelize body-parser
+npm install mysql2  (para usar mysql)
+npm install -g nodemon  (para que se reinicie el servidor automaticamente al realizar cambios). Lo instalamos de manera global UNA SOLA VEZ.
+
+
+
+
+
+VALIDACIONES:
+
+https://sequelize.org/master/manual/validations-and-constraints.html#per-attribute-validations
