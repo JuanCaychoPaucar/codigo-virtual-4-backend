@@ -30,8 +30,20 @@ const createAlmacen = (req, res) => {
 }
 
 
+const devolverAlmacenes = async (req, res) => {
+    let almacenes = await Almacen.findAll();
+
+    return res.json({
+        ok: true,
+        content: almacenes,
+        message: null
+    })
+}
+
+
 module.exports = {
-    createAlmacen
+    createAlmacen,
+    devolverAlmacenes
 }
 
 // NOTA: Solo utilizaremos un solo .catch(), independientemente de la cantidad de .then() que tengamos

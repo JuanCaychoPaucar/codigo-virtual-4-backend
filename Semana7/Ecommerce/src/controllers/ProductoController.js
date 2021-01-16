@@ -5,7 +5,7 @@ const createProducto = (req, res) => {
         return res.status(201).json({
             ok: true,
             content: productoCreado,
-            message: null
+            message: 'Producto creado exitosamente'
         });
     }).catch((error) => {
         return res.status(500).json({
@@ -16,6 +16,19 @@ const createProducto = (req, res) => {
     });
 }
 
+
+
+const listarProductos = async (req, res) => {
+    let productos = await Producto.findAll();
+
+    return res.json({
+        ok: true,
+        content: productos,
+        message: null
+    });
+}
+
 module.exports = {
-    createProducto
+    createProducto,
+    listarProductos
 }
