@@ -36,19 +36,19 @@ const Producto = producto_model(conexion);
 const Usuario = usuario_model(conexion);
 
 // crear las relaciones
-Categoria.hasMany(Producto, { foreignKey: 'categoria_id' });
+Categoria.hasMany(Producto, { foreignKey: { name: 'categoria_id', allowNull: false } });
 Producto.belongsTo(Categoria, { foreignKey: 'categoria_id' });
 
-Almacen.hasMany(Producto, { foreignKey: 'almacen_id' });
+Almacen.hasMany(Producto, { foreignKey: { name: 'almacen_id', allowNull: false } });
 Producto.belongsTo(Almacen, { foreignKey: 'almacen_id' });
 
-Usuario.hasMany(CabeceraVenta, { foreignKey: 'usuario_id' });
+Usuario.hasMany(CabeceraVenta, { foreignKey: { name: 'usuario_id', allowNull: false } });
 CabeceraVenta.belongsTo(Usuario, { foreignKey: 'usuario_id' });
 
-CabeceraVenta.hasMany(DetalleVenta, { foreignKey: 'cabventa_id' });
+CabeceraVenta.hasMany(DetalleVenta, { foreignKey: { name: 'cabventa_id', allowNull: false } });
 DetalleVenta.belongsTo(CabeceraVenta, { foreignKey: 'cabventa_id' });
 
-Producto.hasMany(DetalleVenta, { foreignKey: 'producto_id' });
+Producto.hasMany(DetalleVenta, { foreignKey: { name: 'producto_id', allowNull: false } });
 DetalleVenta.belongsTo(Producto, { foreignKey: 'producto_id' });
 
 Imagen.hasMany(Producto, { foreignKey: 'imagen_id' });
@@ -57,16 +57,16 @@ Producto.belongsTo(Imagen, { foreignKey: 'imagen_id' });
 Imagen.hasMany(Usuario, { foreignKey: 'imagen_id' });
 Usuario.belongsTo(Imagen, { foreignKey: 'imagen_id' });
 
-Producto.hasMany(Carrito, { foreignKey: 'producto_id' });
+Producto.hasMany(Carrito, { foreignKey: { name: 'producto_id', allowNull: false } });
 Carrito.belongsTo(Producto, { foreignKey: 'producto_id' });
 
-Usuario.hasMany(Carrito, { foreignKey: 'usuario_id' });
+Usuario.hasMany(Carrito, { foreignKey: { name: 'usuario_id', allowNull: false } });
 Carrito.belongsTo(Usuario, { foreignKey: 'usuario_id' });
 
-Producto.hasMany(ListaDeseo, { foreignKey: 'producto_id' });
+Producto.hasMany(ListaDeseo, { foreignKey: { name: 'producto_id', allowNull: false } });
 ListaDeseo.belongsTo(Producto, { foreignKey: 'producto_id' });
 
-Usuario.hasMany(ListaDeseo, { foreignKey: 'usuario_id' });
+Usuario.hasMany(ListaDeseo, { foreignKey: { name: 'usuario_id', allowNull: false } });
 ListaDeseo.belongsTo(Usuario, { foreignKey: 'usuario_id' });
 
 
