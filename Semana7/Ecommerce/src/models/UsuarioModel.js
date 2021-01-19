@@ -34,8 +34,8 @@ const usuario_model = (conexion) => {
             field: 'usuario_telefono',
             type: DataTypes.STRING(10),
             validate: {
-                min: 9000000000,
-                max: 9999999999,
+                min: 900000000,
+                max: 999999999,
                 isNumeric: true
             }
         },
@@ -83,7 +83,8 @@ const usuario_model = (conexion) => {
         let payload = {
             usuarioId: this.usuarioId,
             usuarioNombre: this.usuarioNombre,
-            usuarioTipo: this.usuarioTipo
+            usuarioTipo: this.usuarioTipo,
+            usuarioCorreo: this.usuarioCorreo
         }
 
         let password = process.env.JWT_SECRET || 'codigo4';
@@ -91,7 +92,7 @@ const usuario_model = (conexion) => {
 
         // sign(payload, contraseña, configuracion)
         // expiresIn: int, str => si yo le mando un entero lo tomara como segundos, '1h'
-        let token = jwt.sign(payload, password, { expiresIn: 600 }, { algorithm: 'RS256' });
+        let token = jwt.sign(payload, password, { expiresIn: 60 }, { algorithm: 'RS256' });
         return token;
     }
 

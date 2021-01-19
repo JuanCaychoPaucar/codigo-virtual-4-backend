@@ -22,8 +22,8 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-
         <form>
+
           <div class="form-group">
             <label for="inputNombre">Nombre</label>
             <input type="text" class="form-control" id="inputNombre" />
@@ -32,32 +32,48 @@
             <label for="inputDescripcion">Descripcion</label>
             <input type="text" class="form-control" id="inputDescripcion" />
           </div>
-          <div class="form-group">
-            <label for="inputMarca">Marca</label>
-            <input type="text" class="form-control" id="inputMarca" />
+
+          <div class="row">
+            <div class="form-group col">
+              <label for="inputMarca">Marca</label>
+              <input type="text" class="form-control" id="inputMarca" />
+            </div>
+            <div class="form-group col">
+              <label for="inputSKU">SKU</label>
+              <input type="text" class="form-control" id="inputSKU" />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="inputPrecio">Precio</label>
-            <input type="number" class="form-control" id="inputPrecio" />
+
+          <div class="row">
+            <div class="form-group col">
+              <label for="inputPrecio">Precio</label>
+              <input type="number" class="form-control" id="inputPrecio" />
+            </div>
+            <div class="form-group col">
+              <label for="inputDescuento">Descuento</label>
+              <input type="number" class="form-control" id="inputDescuento" />
+            </div>
+            <div class="form-group col">
+              <label for="inputCantidad">Cantidad</label>
+              <input type="number" class="form-control" id="inputCantidad" />
+            </div>
           </div>
-          <div class="form-group">
-            <label for="inputSKU">SKU</label>
-            <input type="text" class="form-control" id="inputSKU" />
+
+          <div class="row">
+            <div class="form-group col">
+              <label for="categorias">Categoría</label>
+              <select class="form-control" id="categorias">
+                <option id="0">Seleccione una categoría</option>
+              </select>
+            </div>
+            <div class="form-group col">
+              <label for="almacenes">Almacen</label>
+              <select class="form-control" id="almacenes">
+                <option id="0">Seleccione un almacen</option>
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="inputDescuento">Descuento</label>
-            <input type="number" class="form-control" id="inputDescuento" />
-          </div>
-          <div class="form-group">
-            <label for="inputCantidad">Cantidad</label>
-            <input type="number" class="form-control" id="inputCantidad" />
-          </div>
-          <div class="form-group">
-            <label for="inputImagen">Almacenes</label>
-            <select class="form-control" id="almacenes">
-              <option id="0">Seleccione un almacen</option>
-            </select>
-          </div>
+
           <div class="form-group">
             <label for="inputImagen">Imagen</label>
             <input type="file" class="form-control" id="inputImagen" accept="image/png, image/jpeg" />

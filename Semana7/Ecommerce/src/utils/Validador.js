@@ -12,7 +12,7 @@ const verificarToken = (token) => {
         console.log(error);
         return null;
     }
-}
+};
 
 // middleware
 // es un observador que si todo lo que le pasemos cumple, pasara al siguiente controlador, caso contrario, ahi terminara la consulta
@@ -20,6 +20,7 @@ const verificarToken = (token) => {
 
 // dentro de nuestro Server, debe de estar configurado en el CORS, el header Authorization
 // para porbar en el postman, agregamos el header Authorization : Bearer valor_token
+
 const wachiman = (req, res, next) => {
     console.log(req.headers);
     if (req.headers.authorization) {
@@ -34,7 +35,7 @@ const wachiman = (req, res, next) => {
             return res.status(401).json({
                 ok: false,
                 content: null,
-                message: 'Necesitas estar autenticado para realizar esta solicitud'
+                message: 'No estas autorizado para realizar esta solicitud'
             });
         }
     } else {
@@ -44,9 +45,68 @@ const wachiman = (req, res, next) => {
             message: 'Necesitas estar autenticado para realizar esta peticion'
         });
     }
-}
+};
+
+
+
+const validacionMultiple = (tipo, authorization, res, next) => {
+    // tipo =1 => validar admin
+    // tipo = 2 => validar admin y vendedor
+    if (authorization) {
+        let token = authorization.split(" ")[1];
+        let respuesta = verificarToken(token);
+        switch (tipo) {
+            case 1:
+                console.log(respuesta);
+                if (respuesta && respuesta.usuarioTipo === 1) {
+                    return next();
+                }
+                break;
+            case 2:
+                if (respuesta && (respuesta.usuarioTipo === 1 || respuesta.usuarioTipo === 2)) {
+                    return next();
+                }
+                break;
+            default:
+                break;
+        }
+        return res.status(401).json({
+            ok: false,
+            content: "No estas autorizado para realizar esta solicitud",
+        });
+    } else {
+        return res.status(401).json({
+            ok: false,
+            message: "Necesitas estar autenticado para realizar esta peticion",
+        });
+    }
+};
+
+
+
+const validarAdmin = (req, res, next) => {
+    return validacionMultiple(1, req.headers.authorization, res, next);
+};
+
+
+
+const validarAdminYVendedor = (req, res, next) => {
+    return validacionMultiple(2, req.headers.authorization, res, next);
+};
+
+
+const validarCreacionPersonal = (req, res, next) => {
+    let { usuarioTipo } = req.body;
+    if (usuarioTipo === 1 || usuarioTipo === 2) {
+        return validacionMultiple(1, req.headers.authorization, res, next);
+    }
+    next();
+};
 
 
 module.exports = {
-    wachiman
-}
+    wachiman,
+    validarAdmin,
+    validarAdminYVendedor,
+    validarCreacionPersonal
+};

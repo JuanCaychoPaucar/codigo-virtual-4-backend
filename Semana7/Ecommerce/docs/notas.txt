@@ -11,3 +11,9 @@ npm install jsonwebtoken
 VALIDACIONES:
 
 https://sequelize.org/master/manual/validations-and-constraints.html#per-attribute-validations
+
+
+Tipos de usuario:
+1 - Admin
+2- Vendedor
+3 - Cliente

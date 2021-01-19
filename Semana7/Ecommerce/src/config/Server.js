@@ -18,18 +18,16 @@ class Server {
 
     CORS() {
         this.app.use((req, res, next) => {
-            res.header('Access-Control-Allow-Origin', '*'); // este el dominio del frontend
+            res.header('Access-Control-Allow-Origin', '*'); // este es el dominio del frontend
             res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
             res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
             next();
         });
     }
 
-
     configurarBodyParser() {
         this.app.use(bodyParser.json());
     }
-
 
     rutas() {
         this.app.get('/', (req, res) => {
@@ -41,7 +39,6 @@ class Server {
         this.app.use('', imagen_router);
         this.app.use('', usuario_router);
     }
-
 
     start() {
         this.app.listen(this.puerto, () => {

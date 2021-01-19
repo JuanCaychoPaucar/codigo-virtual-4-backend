@@ -1,0 +1,13 @@
+1. Para crear un nuevo almacen o  categoria solamente un usuario con tipo 1 ("administrador") puede crearlo, haga las modificaciones correspondientes. ✔
+
+2. Para crear un nuevo producto solamente un usuario con tipo 2 o 1 ("vendedor" o "administrador") puede hacerlo. ✔
+
+3. El usuario con tipo 3 ("cliente") puede ver su propio usuario, ver todos los productos y categorias. ✔
+
+4. Al crear un nuevo producto se va a ingresar en una categoria con estado "0", indicar que "Se creó el producto, pero no se va a mostrar porque la categoria no esta activa"
+
+5. Mostrar al cliente solamente todos los productos con categoriaEstado True
+
+6. Solamente un nuevo usuario de tipo 1 o 2 puede ser creado por un "administrador"
+
+NOTA: Cliente es usuario tipo 3
