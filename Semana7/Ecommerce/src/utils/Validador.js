@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { Usuario } = require('../config/Sequelize');
 
 const verificarToken = (token) => {
     try {
@@ -95,10 +96,20 @@ const validarAdminYVendedor = (req, res, next) => {
 };
 
 
-const validarCreacionPersonal = (req, res, next) => {
-    let { usuarioTipo } = req.body;
-    if (usuarioTipo === 1 || usuarioTipo === 2) {
-        return validacionMultiple(1, req.headers.authorization, res, next);
+
+const validarCreacionPersonal = async (req, res, next) => {
+    // verificamos si existe un usuario de tipo 1 (admin) en nuestra BD, para poder crear un usuario de tipo tipo 1 en caso no exista ninguno.
+    // Ya que, para crear usuarios de tipo 1 y 2, se necesita tener un usuario de tipo 1 logueado.
+    let usuario = await Usuario.findOne({
+        where: {
+            usuarioTipo: 1
+        }
+    });
+    if (usuario) {
+        let { usuarioTipo } = req.body;
+        if (usuarioTipo === 1 || usuarioTipo === 2) {
+            return validacionMultiple(1, req.headers.authorization, res, next);
+        }
     }
     next();
 };

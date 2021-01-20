@@ -6,6 +6,7 @@ const almacen_router = require('../routes/AlmacenRoutes');
 const producto_router = require('../routes/ProductoRoutes');
 const imagen_router = require('../routes/ImagenRoutes');
 const usuario_router = require('../routes/UsuarioRoutes');
+const venta_router = require('../routes/VentaRoutes');
 
 class Server {
     constructor() {
@@ -38,6 +39,7 @@ class Server {
         this.app.use('', producto_router);
         this.app.use('', imagen_router);
         this.app.use('', usuario_router);
+        this.app.use('', venta_router);
     }
 
     start() {
