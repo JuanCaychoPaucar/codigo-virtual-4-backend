@@ -1,3 +1,6 @@
+Iniciar nuevo proyecto en NodeJS
+npm init
+
 Instalar:
 npm install express sequelize body-parser
 npm install mysql2  (para usar mysql)

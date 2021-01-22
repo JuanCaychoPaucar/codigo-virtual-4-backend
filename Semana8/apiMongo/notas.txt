@@ -1,0 +1,2 @@
+Creamos la carpeta del proyecto
+en la consola: npm i express body-parser mongoose

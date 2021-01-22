@@ -1,0 +1,36 @@
+MONGO DB
+
+Descargar MongoDB Community Server
+https://www.mongodb.com/try/download/community
+en .msi
+
+compatibilidad de versiones de MongoDB
+https://docs.mongodb.com/manual/administration/production-notes/#prod-notes-supported-platforms
+
+
+MONGOOSE, es un ODM  https://mongoosejs.com/
+Instalar
+npm i mongoose
+
+
+
+Abrir MongoDB Compass
+
+registro => documento
+
+
+
+ Type      Capacity
+   Int16 -- (-32,768 to +32,767)
+   Int32 -- (-2,147,483,648 to +2,147,483,647)
+   Int64 -- (-9,223,372,036,854,775,808 to +9,223,372,036,854,775,807)
+
+FILTRADO
+{nombre: "Juan"}
+en formato JSON
+
+{nombre: /a/} con nombres que contengan la letra a
+
+
+
+nota chequear video en tiempo 19:45
