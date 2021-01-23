@@ -12,7 +12,8 @@ MONGOOSE, es un ODM  https://mongoosejs.com/
 Instalar
 npm i mongoose
 
-
+BCRYPT
+npm i bcrypt
 
 Abrir MongoDB Compass
 

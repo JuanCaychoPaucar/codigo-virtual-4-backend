@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const usuario_router = require('../routes/UsuarioRoutes');
+const curso_router = require('../routes/CursoRouter');
 
 module.exports = class Server {
     constructor() {
@@ -32,14 +34,24 @@ module.exports = class Server {
             ok: true,
             content: 'La API funciona exitosamente'
         }));
+
+        this.app.use('', usuario_router);
+        this.app.use('', curso_router);
     }
 
     // conecto a la BD
     conectarMongoDb() {
         mongoose.connect('mongodb://localhost:27017/plataforma_educativa', {
             useNewUrlParser: true,
-            useUnifiedTopology: true
-        }); // la version community server no requiere usuario y contraseña
+            useUnifiedTopology: true,
+            useCreateIndex: true
+        })
+            .then(() => {
+                console.log('Base de datos conectada exitosamente');
+            })
+            .catch((error) => {
+                console.log(error);
+            }); // la version community server no requiere usuario y contraseña
     }
 
 
