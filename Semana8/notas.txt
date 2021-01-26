@@ -15,6 +15,14 @@ npm i mongoose
 BCRYPT
 npm i bcrypt
 
+
+
+MOMENT-TIMEZONE
+npm i moment-timezone
+https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
+
+
 Abrir MongoDB Compass
 
 registro => documento

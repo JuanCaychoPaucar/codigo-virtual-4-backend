@@ -22,6 +22,35 @@ const crearCurso = async (req, res) => {
     }
 }
 
+
+const listarCursos = (req, res) => {
+    Curso.find().then((cursos) => {
+        return res.json({
+            ok: true,
+            content: cursos,
+            message: null
+        });
+    })
+}
+
+// devolver solo los cursos que coincidan con el nombre y esten activos
+const listarCursosPorNombre = (req, res) => {
+    let { nombre } = req.params;
+
+    Curso.find({
+        curso_nombre: { $regex: '.*' + nombre + '.*' },
+        curso_publicado: true
+    }).then((cursos) => {
+        return res.json({
+            ok: true,
+            content: cursos,
+            message: null
+        });
+    });
+}
+
 module.exports = {
     crearCurso,
+    listarCursos,
+    listarCursosPorNombre,
 }

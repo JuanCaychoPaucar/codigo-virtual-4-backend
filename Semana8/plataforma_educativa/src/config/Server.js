@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const usuario_router = require('../routes/UsuarioRoutes');
 const curso_router = require('../routes/CursoRouter');
+const imagen_router = require('../routes/ImagenRouter');
 
 module.exports = class Server {
     constructor() {
@@ -35,8 +36,8 @@ module.exports = class Server {
             content: 'La API funciona exitosamente'
         }));
 
-        this.app.use('', usuario_router);
-        this.app.use('', curso_router);
+        this.app.use('', usuario_router, curso_router, imagen_router); // si usamos el mismo prefijo "", podemos colocar las rutas seguidas de ,
+        // this.app.use('', curso_router);
     }
 
     // conecto a la BD
