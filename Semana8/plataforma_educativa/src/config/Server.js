@@ -45,7 +45,8 @@ module.exports = class Server {
         mongoose.connect('mongodb://localhost:27017/plataforma_educativa', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex: true
+            useCreateIndex: true,
+            useFindAndModify: false
         })
             .then(() => {
                 console.log('Base de datos conectada exitosamente');

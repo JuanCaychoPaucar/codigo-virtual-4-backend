@@ -16,6 +16,13 @@ BCRYPT
 npm i bcrypt
 
 
+GOOGLE CLOUD STORAGE
+npm i @google-cloud/storage
+
+MULTER
+// https://www.npmjs.com/package/multer
+// npm i multer
+
 
 MOMENT-TIMEZONE
 npm i moment-timezone

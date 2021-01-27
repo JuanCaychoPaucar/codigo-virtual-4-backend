@@ -8,11 +8,21 @@ const multer = Multer({
     // storage: Multer.diskStorage(),
     storage: Multer.memoryStorage(),
     limits: {
-        fileSize: 5 * 1024 * 1024   //bytes*1024=kilobytes*1024=megabytes
+        fileSize: 5 * 1024 * 1024   //bytes*1024 = kilobytes*1024 = megabytes
     }
 });
 
-// multer.single('imagen') => imagen es el nombre de la llave que le vamos a pasar por el postman
+// multer.single('imagen') => imagen es el nombre de la llave que le vamos a pasar por el form-data
 imagen_router.post('/subirImagen', multer.single('imagen'), imagen_controller.subirImagen);
 
+imagen_router.delete('/eliminarImagenUsuario/:id', imagen_controller.eliminarImagenUsuario);
+imagen_router.delete('/eliminarImagenCurso/:id/:posicion', imagen_controller.eliminarImagenCurso);
+
 module.exports = imagen_router;
+
+
+
+// https://www.npmjs.com/package/multer
+// npm i multer
+
+// https://www.flightpedia.org/convert/5-megabytes-to-bytes.html

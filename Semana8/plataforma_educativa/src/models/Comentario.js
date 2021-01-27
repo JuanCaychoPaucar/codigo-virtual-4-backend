@@ -7,12 +7,12 @@ const comentarioSchema = new Schema({
         required: true
     },
     usuario: {
-        type: String,
+        type: Schema.Types.ObjectId,
         trim: true,
         required: true
     },
     curso: {
-        type: String,
+        type: Schema.Types.ObjectId,
         trim: true,
         required: true
     }

@@ -52,8 +52,8 @@ const cursoSchema = new Schema({
     curso_imagenes: [
         imagenSchema
     ],
-    usuarios: [String],
-    comentarios: [String],
+    usuarios: [Schema.Types.ObjectId],
+    comentarios: [Schema.Types.ObjectId],
     curso_videos: {
         type: [contenidoSchema],
         required: true
