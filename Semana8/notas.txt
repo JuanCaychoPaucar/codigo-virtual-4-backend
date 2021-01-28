@@ -50,3 +50,8 @@ en formato JSON
 
 
 nota chequear video en tiempo 19:45
+
+
+MONGO ATLAS
+usuario: jc_caycho_p
+password: codigovirtualbackend

@@ -42,7 +42,9 @@ module.exports = class Server {
 
     // conecto a la BD
     conectarMongoDb() {
-        mongoose.connect('mongodb://localhost:27017/plataforma_educativa', {
+        //mongoose.connect('mongodb://localhost:27017/plataforma_educativa', {
+        //!                              username       password         cluster                    /nombre BD          ? configuraciones adicionales
+        mongoose.connect('mongodb+srv://jc_caycho_p:codigovirtualbackend@cluster0.ilwxx.mongodb.net/plataforma_educativa?retryWrites=true&w=majority', {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
@@ -61,3 +63,8 @@ module.exports = class Server {
         this.app.listen(this.puerto, () => console.log('Servidor corriendo exitosamente en el puerto: ', this.puerto));
     }
 }
+
+// conexion utilizando Mongo Atlas
+// mongodb+srv://jc_caycho_p:<password>@cluster0.ilwxx.mongodb.net/<dbname>?retryWrites=true&w=majority
+// <password> => codigovirtualbackend
+// <dbname> => plataforma_educativa
