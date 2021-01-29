@@ -13,7 +13,7 @@ const conexion = new Sequelize(
         timezone: "-05:00",
         logging: false,
         dialectOptions: {
-            dateString: true
+            dateStrings: true
         }
     }
 );

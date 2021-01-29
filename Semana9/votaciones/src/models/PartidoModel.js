@@ -8,6 +8,10 @@ const partido_model = (conexion) => {
             autoIncrement: true,
             allowNull: false
         },
+        partido_nombre: {
+            type: DataTypes.STRING(30),
+            allowNull: false
+        },
         partido_img_partido: {
             type: DataTypes.TEXT,
             allowNull: false,
