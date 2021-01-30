@@ -2,6 +2,7 @@ const { Elector } = require('../config/Sequelize');
 const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
+const { generarToken } = require('../utils/Validador')
 
 const clienteCorreo = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -35,6 +36,16 @@ const crearElector = async (req, res) => {
 
         const salt = bcrypt.genSaltSync(10);
 
+        await Elector.create({
+            elector_dni: informacion.data.numero,
+            elector_email: elector_email,
+            elector_tipo: elector_tipo,
+            elector_nombre: informacion.data.nombres,
+            elector_apellido: informacion.data.apellido_paterno + ' ' + informacion.data.apellido_materno,
+            elector_hash: salt
+        });
+
+
         // envio de correo
         let respuestaCorreo = await clienteCorreo.sendMail({
             to: elector_email,
@@ -45,16 +56,6 @@ const crearElector = async (req, res) => {
             `
         });
         // fin envio de correo
-
-        await Elector.create({
-            elector_dni: informacion.data.numero,
-            elector_email: elector_email,
-            elector_tipo: elector_tipo,
-            elector_nombre: informacion.data.nombres,
-            elector_apellido: informacion.data.apellido_paterno + ' ' + informacion.data.apellido_paterno,
-            elector_hash: salt
-        });
-
 
 
         return res.status(201).json({
@@ -87,16 +88,58 @@ const activarElector = async (req, res) => {
     console.log("elector : ", elector);
 
     if (elector) {
-        return res.render('inicio');   // nombre de la vista
+        if (elector.elector_habilitado === false) {
+            elector.elector_habilitado = true;
+            elector.save();
+            return res.render('inicio', { nombre: elector.elector_nombre, apellido: elector.elector_apellido });   // nombre de la vista, parametros
+
+        } else {
+            return res.render('error');
+        }
+
     } else {
         return res.render('no_encontrado');
     }
 
 }
 
+
+const iniciarSesion = async (req, res) => {
+    let { dni, correo } = req.body;
+    // hacer la busqueda del elector, segun su correo y dni
+    let elector = await Elector.findOne({
+        where: {
+            elector_dni: dni,
+            elector_email: correo,
+            elector_habilitado: true
+        }
+    });
+
+    console.log("ELECTOR", elector);
+
+    if (elector) {
+        const token = generarToken({ dni: elector.elector_dni });
+        return res.json({
+            ok: true,
+            content: token,
+            message: null
+        });
+    } else {
+        return res.status(401).json({
+            ok: false,
+            content: null,
+            message: 'Elector no registrado o no habilitado. Revise su correo'
+        });
+    }
+
+}
+
+
+
 module.exports = {
     crearElector,
-    activarElector
+    activarElector,
+    iniciarSesion
 }
 
 // https://www.npmjs.com/package/node-fetch
@@ -107,6 +150,9 @@ module.exports = {
 
 // https://www.npmjs.com/package/nodemailer
 // npm i nodemailer
+
+// handlebars
+// https://handlebarsjs.com/guide/#what-is-handlebars
 
 
 // BODY
