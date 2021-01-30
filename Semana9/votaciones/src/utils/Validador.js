@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const secret = process.env.JWT || 'votaciones';
+const { Elector } = require('../config/Sequelize');
 
 const verificarToken = (token) => {
     try {
@@ -41,7 +42,7 @@ const renovarToken = async (req, res) => {
         if (typeof respuesta === 'object') {
             return res.json({
                 ok: true,
-                message: 'Todo bien'
+                message: 'La token aun es valida y no necesita renovarse'
             });
         } else if (typeof respuesta === 'string') {
             if (respuesta === 'jwt expired') {
@@ -88,11 +89,27 @@ const generarToken = ({ dni }) => { // destructuracion de todo mi elector en mi 
 }
 
 
+const validarAdmin = async (req, res, next) => {
+    const electorEncontrado = await Elector.findByPk(req.user.elector_dni);
+    if (electorEncontrado.elector_tipo === 1) { // tipo 1 es admin
+        next();
+    } else {
+        return res.json({
+            ok: false,
+            content: null,
+            message: 'usuario no cuenta con los privilegios suficientes para esta solicitud'
+        });
+    }
+}
+
+
+
 module.exports = {
     generarToken,
     verificarToken,
     renovarToken,
-    wachiman
+    wachiman,
+    validarAdmin
 }
 
 // npm i jsonwebtoken

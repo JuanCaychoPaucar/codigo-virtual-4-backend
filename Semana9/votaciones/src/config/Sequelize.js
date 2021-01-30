@@ -28,7 +28,7 @@ const Voto = voto_model(conexion);
 //* CREAR LAS RELACIONES
 
 //! relacion de uno a uno, pero aun asi se debe de crear la FK
-Elector.hasOne(Voto, { foreignKey: { name: 'elector_dni', allowNull: false } });
+Elector.hasOne(Voto, { foreignKey: { name: 'elector_dni', allowNull: false, unique: true } });
 Voto.belongsTo(Elector, { foreignKey: 'elector_dni' });
 
 /**

@@ -4,6 +4,7 @@ const { conexion } = require('./Sequelize');
 const partido_router = require('../routes/PartidoRouter');
 const elector_router = require('../routes/ElectorRouter');
 const voto_router = require('../routes/VotoRouter');
+const administrador_router = require('../routes/AdministradorRouter');
 
 const exphbs = require('express-handlebars');
 
@@ -51,7 +52,7 @@ class Server {
             content: 'Bienvenido a mi API de elecciones 😎'
         }));
 
-        this.app.use('', partido_router, elector_router, voto_router);
+        this.app.use('', partido_router, elector_router, voto_router, administrador_router);
     }
 
     start() {
