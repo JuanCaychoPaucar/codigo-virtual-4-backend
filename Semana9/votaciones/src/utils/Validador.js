@@ -79,9 +79,10 @@ const renovarToken = async (req, res) => {
 
 
 
-const generarToken = ({ dni }) => { // destructuracion de todo mi elector en mi zona de parametro
+const generarToken = ({ dni, tipo }) => { // destructuracion de todo mi elector en mi zona de parametro
     const payload = {
-        elector_dni: dni
+        elector_dni: dni,
+        elector_tipo: tipo
     }
     const token = jwt.sign(payload, secret, { expiresIn: 60 }, { algorithm: 'RS256' }); // 60 segundos
 

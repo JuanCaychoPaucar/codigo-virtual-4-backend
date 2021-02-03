@@ -22,6 +22,44 @@ const crearElector = async (req, res) => {
     try {
         const { elector_dni, elector_email, elector_tipo } = req.body;
 
+        // validar si el DNI ya esta registrado
+        let busquedaElectorDNI = await Elector.findOne({
+            where: {
+                elector_dni: elector_dni
+            }
+        });
+
+        if (busquedaElectorDNI) {
+            if (busquedaElectorDNI.elector_email === elector_email) {
+                return res.status(500).json({
+                    ok: false,
+                    content: null,
+                    message: 'El DNI y el email ya se encuentran registrados'
+                });
+            }
+            return res.status(500).json({
+                ok: false,
+                content: null,
+                message: 'El DNI  ya se encuentra registrado'
+            });
+        }
+
+        // validar si el email ya esta registrado
+        let busquedaElectorEmail = await Elector.findOne({
+            where: {
+                elector_email: elector_email
+            }
+        });
+
+        if (busquedaElectorEmail) {
+            return res.status(500).json({
+                ok: false,
+                content: null,
+                message: 'El email ya se encuentra registrado'
+            });
+        }
+
+
         // APIPERU RENIEC
         // https://docs.apiperu.dev/
 
@@ -37,7 +75,7 @@ const crearElector = async (req, res) => {
         const salt = bcrypt.genSaltSync(10);
 
         await Elector.create({
-            elector_dni: informacion.data.numero,
+            elector_dni: elector_dni,
             elector_email: elector_email,
             elector_tipo: elector_tipo,
             elector_nombre: informacion.data.nombres,
@@ -118,7 +156,7 @@ const iniciarSesion = async (req, res) => {
     console.log("ELECTOR", elector);
 
     if (elector) {
-        const token = generarToken({ dni: elector.elector_dni });
+        const token = generarToken({ dni: elector.elector_dni, tipo: elector.elector_tipo });
         return res.json({
             ok: true,
             content: token,

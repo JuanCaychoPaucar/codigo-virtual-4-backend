@@ -36,6 +36,18 @@ const crearPartido = async (req, res) => {
     }
 }
 
+
+const listarPartidos = async (req, res) => {
+    let lista = await Partido.findAll();
+
+    return res.json({
+        ok: true,
+        content: lista,
+        message: null
+    });
+}
+
 module.exports = {
-    crearPartido
+    crearPartido,
+    listarPartidos
 }

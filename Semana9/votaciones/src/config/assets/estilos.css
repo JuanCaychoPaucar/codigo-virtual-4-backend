@@ -1,3 +1,11 @@
-* {
-  color: red;
+.validar-titulo{
+    font-size: 3rem;
+}
+
+.validar-nombre{
+    font-size: 1.5rem;
+}
+
+.validar-logo{
+    height: 100px;
 }

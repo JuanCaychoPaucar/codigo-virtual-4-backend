@@ -1,0 +1,369 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Votaciones 2021",
+    "description": "API usando validacion de DNI y restauracion de password por correo.",
+    "contact": {}
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "securityDefinitions": {},
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/partido": {
+      "post": {
+        "description": "Endpoint para agregar un partido. Solamente un administrador va a poder realizar esta acción.",
+        "summary": "/partido",
+        "tags": [
+          "Partido"
+        ],
+        "operationId": "/partido",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/~1partidorequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "get": {
+        "description": "Endpoint para listar todos los partidos",
+        "summary": "/partido",
+        "tags": [
+          "Partido"
+        ],
+        "operationId": "Get/partido",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/registrar": {
+      "post": {
+        "description": "Endpoint para registrar un nuevo elector.",
+        "summary": "/registrar",
+        "tags": [
+          "Elector"
+        ],
+        "operationId": "/registrar",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/~1registrarrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/iniciarSesion": {
+      "post": {
+        "description": "Ruta para iniciar sesion",
+        "summary": "/iniciarSesion",
+        "tags": [
+          "Elector"
+        ],
+        "operationId": "/iniciarSesion",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/~1iniciarSesionRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/renovarToken": {
+      "post": {
+        "description": "Endpoint para renovar la token",
+        "summary": "/renovarToken",
+        "tags": [
+          "Elector"
+        ],
+        "operationId": "/renovarToken",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/voto": {
+      "post": {
+        "description": "Endpoint para registrar un nuevo voto",
+        "summary": "/voto",
+        "tags": [
+          "Voto"
+        ],
+        "operationId": "/voto",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/presidenciales": {
+      "get": {
+        "description": "Endpoint para devolver el resultado de las elecciones presidenciales",
+        "summary": "/presidenciales",
+        "tags": [
+          "Administrador"
+        ],
+        "operationId": "/presidenciales",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/congresales": {
+      "get": {
+        "summary": "/congresales",
+        "tags": [
+          "Administrador"
+        ],
+        "operationId": "/congresales",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": false,
+            "default": "Bearer {token}",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "/partidorequest": {
+      "title": "/partidorequest",
+      "example": {
+        "partido_nombre": "Las tres cruces",
+        "partido_img_partido": "https://picsum.photos/200/200",
+        "partido_img_candidato": "https://picsum.photos/200/200"
+      },
+      "type": "object",
+      "properties": {
+        "partido_nombre": {
+          "type": "string"
+        },
+        "partido_img_partido": {
+          "type": "string"
+        },
+        "partido_img_candidato": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "partido_nombre",
+        "partido_img_partido",
+        "partido_img_candidato"
+      ]
+    },
+    "/registrarrequest": {
+      "title": "/registrarrequest",
+      "example": {
+        "elector_dni": "41635383",
+        "elector_email": "jc_caycho_p@outlook.com",
+        "elector_tipo": 2
+      },
+      "type": "object",
+      "properties": {
+        "elector_dni": {
+          "type": "string"
+        },
+        "elector_email": {
+          "type": "string"
+        },
+        "elector_tipo": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "elector_dni",
+        "elector_email",
+        "elector_tipo"
+      ]
+    },
+    "/iniciarSesionRequest": {
+      "title": "/iniciarSesionRequest",
+      "example": {
+        "dni": "41635383",
+        "correo": "jc_caycho_p@outlook.com"
+      },
+      "type": "object",
+      "properties": {
+        "dni": {
+          "type": "string"
+        },
+        "correo": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "dni",
+        "correo"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "Partido",
+      "description": "Rutas del manejo de los partidos politicos."
+    },
+    {
+      "name": "Elector",
+      "description": "Rutas del manejo de los electores."
+    },
+    {
+      "name": "Voto"
+    },
+    {
+      "name": "Administrador"
+    }
+  ]
+}

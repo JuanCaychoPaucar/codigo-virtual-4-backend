@@ -1,0 +1,4 @@
+Loguearse primero con la cuenta a configurar
+
+https://www.google.com/settings/security/lesssecureapps
+https://accounts.google.com/b/0/displayunlockcaptcha
