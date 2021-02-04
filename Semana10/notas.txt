@@ -1,0 +1,88 @@
+1. Abrimos una terminal en Semana10
+2. Crearemos un entorno virtual.
+3. En la terminal, nos vamos a la ruta:
+    C:\users\nombre_usuario> 
+4. Creamos un entorno virtual:
+    py -m venv nombre_entorno_virtual
+    py -m venv venvVirtualBack4
+5. Cerramos todas las terminales que estuvieran abiertas
+6. Abrimos una terminal y nos dirigmos a la siguiente ruta:
+    C:\users\godicillo\venvVirtualBack4>
+7. Ejecutamos:
+    Scripts\activate
+8. Nos debe de mostrar:
+    (venvVirtualBack4) PS C:\users\godicillo\venvVirtualBack4>
+9. Ejecutamos:
+    pip list
+10. Nos muestra solo 2 librerias:
+        Package    Version
+        ---------- -------
+        pip        20.2.3 
+        setuptools 49.2.1 
+
+11. Para salir del entrono virtual:
+    (venvVirtualBack4) PS C:\users\godicillo\venvVirtualBack4>deactivate
+
+
+
+
+Nota:
+Podemos activarlo desde cualquier ruta:
+C:\Users\Godicillo> & C:\users\godicillo\venvVirtualBack4\Scripts\activate.ps1
+
+
+INSTALAMOS:
+pip install django
+pip install djangorestframework
+
+actualizar pip:
+py -m pip install --upgrade pip
+
+Listamos las liberias: pip list
+
+    Package             Version
+    ------------------- -------
+    asgiref             3.3.1
+    Django              3.1.6
+    djangorestframework 3.12.2
+    pip                 21.0.1
+    pytz                2021.1
+    setuptools          49.2.1
+    sqlparse            0.4.1
+
+Cerramos la terminal
+
+Ahora, ya ingresamos a la carpeta de nuestro proyecto en una nueva terminal:
+PS D:\TECSUP\VIRTUAL BACK 4\Semana10\Restaurante>
+
+Activamos el entorno virtual
+PS D:\TECSUP\VIRTUAL BACK 4\Semana10\Restaurante> C:\users\godicillo\venvVirtualBack4\Scripts\activate.ps1
+
+Nos muestra:
+(venvVirtualBack4) PS D:\TECSUP\VIRTUAL BACK 4\Semana10\Restaurante> 
+
+
+CREAR UN NUEVO PROYECTO EN DJANGO
+1. comando:
+    django-admin startproject Restaurante .   (le colocamos el . al final para que no se nos cree una carpeta interna con el nombre Restaurante, pues ya la tenemos creada)
+
+
+
+CREAR APLICACION DENTRO DE DJANGO
+comando: py manage.py startapp facturacion
+(venvVirtualBack4) PS D:\TECSUP\VIRTUAL BACK 4\Semana10\Restaurante>py manage.py startapp Facturacion
+(venvVirtualBack4) PS D:\TECSUP\VIRTUAL BACK 4\Semana10\Restaurante>py manage.py startapp Almacen  
+donde Facturacion y Almacen, son los nombres de mis apps
+
+
+LEVANTAR EL PROYECTO
+(venvVirtualBack4) PS D:\TECSUP\VIRTUAL BACK 4\Semana10\Restaurante> py manage.py runserver
+Se nos crea el archivo db.sqlite3 por defecto
+
+Luego abrimos el enlace indicado en el navegador:
+Starting development server at http://127.0.0.1:8000/
+
+
+NOTA:
+El comando: py manage.py
+me muestra todos los comandos
