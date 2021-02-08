@@ -8,9 +8,13 @@ from django.contrib.auth.models import AbstractBaseUser , PermissionsMixin, Base
 
 from Almacen.models import InventarioModel
 
+#! Revisar archivo settings.py de Restaurante => AUTH_USER_MODEL
+
+#! CUALQUIER CAMBIO EN LOS MODELOS (campos en la BD), SE DEBE DE REALIZAR LA MIGRACION
+
 # Create your models here.
 
-
+#* UsuarioManager es la funcionalidad del modelo UsuarioModel. Se realiza fuera del modelo, para separar funcionalidad con el modelo
 class UsuarioManager(BaseUserManager):
     """Manejo del modelo del usuario"""
 
@@ -35,7 +39,7 @@ class UsuarioManager(BaseUserManager):
 
 
 
-
+#! ************************** INICIO TABLA USUARIO **************************
 class UsuarioModel(AbstractBaseUser, PermissionsMixin):
     """Modelo de la base de datos de los usuarios del sistema"""
     TIPOS_USUARIO = [
@@ -96,8 +100,11 @@ class UsuarioModel(AbstractBaseUser, PermissionsMixin):
         verbose_name = "Usuario"
         verbose_name_plural = "Usuarios"
 
+#! ************************** FIN TABLA USUARIO **************************
 
 
+
+#! ************************** INICIO TABLA MESA **************************
 class MesaModel(models.Model):
     mesaId = models.AutoField(
         db_column="mesa_id",
@@ -128,8 +135,11 @@ class MesaModel(models.Model):
         verbose_name = "Mesa"
         verbose_name_plural = "Mesas"
 
+#! ************************** FIN TABLA MESA **************************
 
 
+
+#! ************************** INICIO TABLA COMANDA_CABECERA **************************
 class CabeceraComandaModel(models.Model):
     cabeceraId = models.AutoField(
         db_column="cabecera_id",
@@ -157,6 +167,14 @@ class CabeceraComandaModel(models.Model):
         null=False,
         max_length=50,
         verbose_name="Nombre del cliente"
+    )
+
+    cabeceraEstado = models.CharField(
+        db_column="cabecera_estado",
+        null=False,
+        max_length=50,
+        verbose_name="Estado del pedido",
+        default="ABIERTO"
     )
 
     # Luego cramos las relaciones
@@ -191,9 +209,11 @@ class CabeceraComandaModel(models.Model):
         verbose_name = "Comanda"
         verbose_name_plural = "Comandas"
 
+#! ************************** FIN TABLA COMANDA_CABECERA **************************
 
 
 
+#! ************************** INICIO TABLA COMPROBANTE **************************
 class ComprobanteModel(models.Model):
     comprobanteId = models.AutoField(
         db_column="comprobante_id",
@@ -261,9 +281,11 @@ class ComprobanteModel(models.Model):
         verbose_name = "Comprobante"
         verbose_name_plural = "Comprobantes"
 
+#! ************************** FIN TABLA COMPROBANTE **************************
 
 
 
+#! ************************** INICIO TABLA COMANDA_DETALLE **************************
 class DetalleComandaModel(models.Model):
     detalleId = models.AutoField(
         db_column="detalle_id",
@@ -299,13 +321,15 @@ class DetalleComandaModel(models.Model):
         db_column="cabecera_id",
         on_delete=models.PROTECT,
         verbose_name="Cabecera",
-        related_name="CabeceraDetalles"
+        related_name="cabeceraDetalles"
     )
 
     class Meta:
         db_table="t_comanda_detalle"
         verbose_name = "Detalle"
         verbose_name_plural = "Detalles"
+
+#! ************************** FIN TABLA COMANDA_DETALLE **************************
 
 
 

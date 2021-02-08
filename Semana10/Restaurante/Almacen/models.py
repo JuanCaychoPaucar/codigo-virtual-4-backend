@@ -13,15 +13,24 @@ class InventarioModel(models.Model):
     inventarioPlato = models.CharField(
         db_column="inventario_plato",
         max_length=40,
-        null=True,
+        null=False,
         verbose_name="Nombre del plato"
     )
 
     inventarioCantidad = models.IntegerField(
         db_column="inventario_cantidad",
-        null=True,
+        null=False,
         verbose_name="Cantidad del plato"
     )
+
+    inventarioPrecio = models.DecimalField(
+        db_column="inventario_precio",
+        decimal_places=2,
+        max_digits=5,
+        null=False,
+        verbose_name="Precio del plato"
+    )
+
 
     def __str__(self):
         return self.inventarioPlato

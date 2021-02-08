@@ -86,3 +86,12 @@ Starting development server at http://127.0.0.1:8000/
 NOTA:
 El comando: py manage.py
 me muestra todos los comandos
+
+
+
+
+DOCUMENTADOR
+https://drf-yasg.readthedocs.io/en/stable/
+https://drf-yasg.readthedocs.io/en/stable/readme.html
+
+pip install drf-yasg

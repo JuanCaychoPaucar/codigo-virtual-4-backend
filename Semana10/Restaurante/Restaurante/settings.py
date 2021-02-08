@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'drf_yasg',
     'Facturacion',
     'Almacen'
 ]
@@ -130,3 +132,22 @@ STATIC_URL = '/static/'
 
 # Para cambiar el USER MODEL a uno generado manualmente
 AUTH_USER_MODEL='Facturacion.UsuarioModel'
+
+# Variable que se usa para configurar la libreria Django Rest Framework
+# https://www.django-rest-framework.org/api-guide/authentication/
+# le indicamos que vamos a trabajar con otra libreria para la autenticacion
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    ]
+}
+
+# Variable que se usa para la configuracion de mi JWT
+# por defecto, la token tiene un tiempo de 5 minutos
+SIMPLE_JWT = {
+    'USER_ID_FIELD' : 'usuarioId',
+    'ACCESS_TOKEN_LIFETIME' : timedelta(hours=1), # sirve para modificar el tiempo de expiracion de mi JWT. Su valor por defecto es 5 minutos
+    'REFRESH_TOKEN_LIFETIME' : timedelta(hours=8), # sirve para indicar cuanto va a durar la token que se refresca (la nueva token), su valor por defecto es de 1 dia
+    'ALGORITHM' : 'HS512', #indica que algoritmo se usara para la encriptacion. Por defecto es HS256 y sus valores son: HS256, HS384, HS512
+    # 'SIGNING_KEY' : 'SIGNING_KEY', # contraseña de la aplicacion. Se recomienda utilizar la que nos brinda Django
+}
