@@ -1,0 +1,8 @@
+CREAMOS PROYECTO:
+npm init
+
+INSTALAMOS LIBRERIAS
+D:\TECSUP\VIRTUAL BACK 4\Semana11\SocketioExpress>
+npm i express socket.io
+
+NOTA: No podemos trabajar con sockets sin tener un front, por ello creamos un archivo html fuera de la carpeta del proyecto

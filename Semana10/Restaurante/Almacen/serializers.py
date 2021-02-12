@@ -9,3 +9,10 @@ class InventarioSerializer(serializers.ModelSerializer):
         fields = '__all__' # voy a usar por completo todas las columnas del inventario
         #fields = ['inventarioPlato'] # si solo deseo mostrar esa columna
         #exclude = ['inventarioPlato'] # si solo deseo exluir esa columna. Solo se usa o el exclude o fields, pero nunca a la vez
+
+
+
+class PlatoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InventarioModel
+        fields = ['inventarioPlato']

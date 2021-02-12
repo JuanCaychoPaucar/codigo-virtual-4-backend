@@ -95,3 +95,23 @@ https://drf-yasg.readthedocs.io/en/stable/
 https://drf-yasg.readthedocs.io/en/stable/readme.html
 
 pip install drf-yasg
+
+
+COPIAR A UN ARCHIVO MIS LIBRERIAS
+pip freeze > requirements.txt
+
+INSTALAR LAS LIBRERIAS DESDE MI ARCHIVO
+pip install -r requirements.txt
+
+
+
+
+
+ERROR AL DEPLOY EN HEROKU
+Error while running '$ python manage.py collectstatic --noinput'.
+       See traceback above for details.
+       You may need to update application code to resolve this error.
+       Or, you can disable collectstatic for this application:
+          $ heroku config:set DISABLE_COLLECTSTATIC=1
+Abrir el CMD y escribir
+heroku config:set DISABLE_COLLECTSTATIC=1 --app restaurante-facturacion-juan

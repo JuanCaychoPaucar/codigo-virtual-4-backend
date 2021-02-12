@@ -1,0 +1,20 @@
+{
+  "name": "socketioexpress",
+  "version": "1.0.0",
+  "description": "Chat utilizando sockets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./src/index.js"
+  },
+  "keywords": [
+    "sockets",
+    "express"
+  ],
+  "author": "JuanCaychoPaucar",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.1.1"
+  }
+}

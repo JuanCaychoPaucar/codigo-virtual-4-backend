@@ -1,9 +1,10 @@
 from rest_framework import serializers
-from .models import UsuarioModel, MesaModel, CabeceraComandaModel, DetalleComandaModel
+from .models import UsuarioModel, MesaModel, CabeceraComandaModel, DetalleComandaModel, InventarioModel, ComprobanteModel
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer # para usar los 2 tokens
 from django.utils import timezone # nos asegura que la configuracion que le indiquemos, se mantenga. Y no toem la hora del servidor que se aloja nuestra app
-# from Almacen.models import InventarioModel
+from Almacen.serializers import PlatoSerializer
 
+#! si usamos un ModelSerializer, es obligatorio utilizar una class Meta
 class RegistroSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True) # para la contraseña, no sea visible al mostrar el response
 
@@ -61,6 +62,7 @@ class CustomPayloadSerializer(TokenObtainPairSerializer):
 class InicioConsumidorSerializer(serializers.Serializer):
     mesaId = serializers.IntegerField()
     meseroId = serializers.IntegerField()
+    cabeceraCliente = serializers.CharField()
 
     def save(self):
         """Acá se guardará la cabecera"""
@@ -71,6 +73,7 @@ class InicioConsumidorSerializer(serializers.Serializer):
         
         mesaId = self.validated_data.get('mesaId')
         meseroId = self.validated_data.get('meseroId')
+        cabeceraCliente = self.validated_data.get('cabeceraCliente')
 
         #* PASO 1: cambiar el estado de la mesa segun su id
         # UPDATE t_mesa SET mesa_estado = 0 WHERE mesa_id = mesaId
@@ -96,7 +99,7 @@ class InicioConsumidorSerializer(serializers.Serializer):
         nuevaCabecera = CabeceraComandaModel(
             cabeceraFecha = timezone.now(),
             cabeceraTotal = 0.0,
-            cabeceraCliente = "",
+            cabeceraCliente = cabeceraCliente,
             mesa = mesa,
             usuario = mesero
         )
@@ -129,13 +132,19 @@ class ComandaDetalleSerializer(serializers.ModelSerializer):
 
         inventario.inventarioCantidad = inventario.inventarioCantidad - cantidad
         inventario.save()
+
+        totalDetalle = subtotal * cantidad
+        cabecera.cabeceraTotal = cabecera.cabeceraTotal + totalDetalle
+        # print(cabecera)
+        # print(cabecera.cabeceraTotal)
+        cabecera.save()
         # print(detalleComanda.detalleId)
         return detalleComanda
     
     class Meta:
         model = DetalleComandaModel
         fields = '__all__'
-
+        
 
 
 
@@ -148,12 +157,58 @@ class MeseroSerializer(serializers.ModelSerializer):
 
 
 
+
+class DevolverNotaDetalleSerializer(serializers.ModelSerializer):
+    plato = PlatoSerializer(source='inventario')
+    class Meta:
+        model = DetalleComandaModel
+        # fields = '__all__'
+        exclude = ['detalleId', 'inventario', 'cabecera']
+
+
+
+
+
 class DevolverNotaSerializer(serializers.ModelSerializer):
+    #! cuando la relacion es de 1 a muchos, SI se usa el related_name
     # many=True, pues me devuelve una lista de detalles
-    detalleComanda = ComandaDetalleSerializer(source="cabeceraDetalles", many=True) #! ver DetalleComandaModel de models.py en related_name
+    detalleComanda = DevolverNotaDetalleSerializer(source="cabeceraDetalles", many=True) #! ver DetalleComandaModel de models.py en related_name
+
+    #! cuando la relacion es de muchos a 1, NO se usa el related_name
     mesero = MeseroSerializer(source="usuario") #! ver CabeceraComandaModel de models.py en usuario
 
     class Meta:
         model = CabeceraComandaModel
+        # fields = '__all__'
+        exclude = ['usuario']
+        
+
+
+
+class GenerarComprobanteSerializer(serializers.Serializer):
+    tipo_comprobante = serializers.IntegerField()
+    cliente_tipo_documento = serializers.CharField(max_length=3)
+    cliente_documento = serializers.CharField(max_length=11)
+    cliente_email = serializers.CharField(max_length=50)
+    observaciones = serializers.CharField(max_length=250)
+    
+
+
+
+class ComprobanteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ComprobanteModel
         fields = '__all__'
 
+
+
+
+class CierreDiaSerializer(serializers.ModelSerializer):
+    mesa = MesaSerializer()
+    mozo = MeseroSerializer(source='usuario')
+    detalle = DevolverNotaDetalleSerializer(source='cabeceraDetalles', many=True)
+    comprobante = ComprobanteSerializer(source='comanda_cabecera')
+
+    class Meta:
+        model = CabeceraComandaModel
+        fields = '__all__'

@@ -270,6 +270,7 @@ class ComprobanteModel(models.Model):
         to=CabeceraComandaModel,
         db_column="cabecera_id",
         on_delete=models.CASCADE,
+        related_name="comanda_cabecera",
         verbose_name="Comanda"
     )
 
